@@ -1,0 +1,27 @@
+[gd_scene load_steps=3 format=3 uid="uid://4p0qjdw6ia22"]
+
+[ext_resource type="Script" path="res://Entities/Scripts/scent_trail.gd" id="1_6sspv"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_cfsut"]
+size = Vector2(6, 6)
+
+[node name="scent_trail" type="Area2D" groups=["Follow"]]
+collision_layer = 64
+collision_mask = 32
+script = ExtResource("1_6sspv")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+visible = false
+offset_left = -3.0
+offset_top = -3.0
+offset_right = 3.0
+offset_bottom = 3.0
+color = Color(0.160784, 0.709804, 0.870588, 0.909804)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_cfsut")
+
+[node name="Timer" type="Timer" parent="."]
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

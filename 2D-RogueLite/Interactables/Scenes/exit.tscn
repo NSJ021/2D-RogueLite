@@ -1,0 +1,67 @@
+[gd_scene load_steps=7 format=3 uid="uid://cqohgju6h3buy"]
+
+[ext_resource type="Script" path="res://Interactables/Scripts/exit.gd" id="1_le3r4"]
+[ext_resource type="Texture2D" uid="uid://ckyu4myrafktk" path="res://Sprites/exit_portal.png" id="2_vy4et"]
+
+[sub_resource type="Animation" id="Animation_k84pm"]
+resource_name = "Active"
+length = 0.9
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("exit_sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6, 7, 8]
+}
+
+[sub_resource type="Animation" id="Animation_rlvft"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("exit_sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [1]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_2x5el"]
+_data = {
+"Active": SubResource("Animation_k84pm"),
+"RESET": SubResource("Animation_rlvft")
+}
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8f03p"]
+size = Vector2(30, 31)
+
+[node name="exit" type="Area2D"]
+collision_layer = 16
+script = ExtResource("1_le3r4")
+
+[node name="exit_sprite" type="Sprite2D" parent="."]
+texture = ExtResource("2_vy4et")
+hframes = 9
+frame = 1
+
+[node name="anim" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_2x5el")
+}
+autoplay = "Active"
+
+[node name="exit_collider" type="CollisionShape2D" parent="."]
+position = Vector2(0, 0.5)
+shape = SubResource("RectangleShape2D_8f03p")
+debug_color = Color(0.255818, 0.548717, 0.850989, 0.42)
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
